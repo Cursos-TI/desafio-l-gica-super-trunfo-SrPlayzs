@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-// Estrutura para representar uma carta
 typedef struct {
     char estado[3];
     char codigo[4];
@@ -17,9 +16,8 @@ typedef struct {
     float super_poder;
 } Carta;
 
-// Função para calcular métricas derivadas
 void calcular_metricas(Carta *carta) {
-    if (carta->area != 0) {  // Proteção contra divisão por zero
+    if (carta->area != 0) {  
         carta->densidade = (float)carta->populacao / carta->area;
         carta->inverso_densidade = carta->area / carta->populacao;
     } else {
@@ -27,7 +25,7 @@ void calcular_metricas(Carta *carta) {
         carta->inverso_densidade = 0;
     }
     
-    if (carta->populacao != 0) {  // Proteção contra divisão por zero
+    if (carta->populacao != 0) {  
         carta->pib_per_capita = carta->pib * 1000000000 / carta->populacao;
     } else {
         carta->pib_per_capita = 0;
@@ -37,7 +35,7 @@ void calcular_metricas(Carta *carta) {
                          carta->pontos + carta->pib_per_capita + carta->inverso_densidade;
 }
 
-// Função para exibir uma carta
+
 void exibir_carta(Carta carta, int numero) {
     printf("\n============ CARTA %d ============\n", numero);
     printf("Estado: %s\n", carta.estado);
@@ -53,13 +51,13 @@ void exibir_carta(Carta carta, int numero) {
     printf("Super Poder: %.2f\n", carta.super_poder);
 }
 
-// Função para criar uma carta
+
 void criar_carta(Carta *carta, int numero) {
     printf("\nCriação da Carta %d\n", numero);
     
     printf("Digite uma letra de 'A' a 'H' para representar um dos oito estados:\n");
     scanf("%2s", carta->estado);
-    getchar(); // Limpa o buffer do teclado
+    getchar(); 
 
     printf("Digite o código da carta (Ex: A01, B03):\n");
     scanf("%3s", carta->codigo);
@@ -72,7 +70,7 @@ void criar_carta(Carta *carta, int numero) {
     printf("Digite o número de habitantes da sua cidade:\n");
     while(scanf("%d", &carta->populacao) != 1 || carta->populacao < 0) {
         printf("Valor inválido! Digite um número positivo: ");
-        while(getchar() != '\n'); // Limpa o buffer
+        while(getchar() != '\n'); 
     }
 
     printf("Digite a área da cidade em quilômetros quadrados:\n");
@@ -96,7 +94,7 @@ void criar_carta(Carta *carta, int numero) {
     calcular_metricas(carta);
 }
 
-// Função para comparar dois atributos
+
 int comparar_atributos(float valor1, float valor2, bool menor_vence) {
     if (menor_vence) {
         if (valor1 < valor2) return 1;
@@ -105,7 +103,7 @@ int comparar_atributos(float valor1, float valor2, bool menor_vence) {
         if (valor1 > valor2) return 1;
         if (valor2 > valor1) return 2;
     }
-    return 0; // Empate
+    return 0; 
 }
 
 int main() {
@@ -116,7 +114,7 @@ int main() {
     printf("\n=== SUPER TRUNFO ===\n");
     printf("Bem-vindo ao jogo Super Trunfo!\n");
     
-    // Criar as cartas
+    
     criar_carta(&carta1, 1);
     criar_carta(&carta2, 2);
     
@@ -143,7 +141,7 @@ int main() {
                 break;
                 
             case 2: {
-                // Nível Novato - Comparação com densidade populacional (menor valor vence)
+                
                 int resultado = comparar_atributos(carta1.densidade, carta2.densidade, true);
                 
                 printf("\n=== RESULTADO (Nível Novato) ===\n");
@@ -274,7 +272,7 @@ int main() {
                     while(getchar() != '\n');
                 }
                 
-                // Arrays para mapear atributos
+                
                 const char* nomes_atributos[] = {
                     "", "População", "Área", "PIB", "Pontos Turísticos", 
                     "Densidade Populacional", "PIB per Capita", "Super Poder"
@@ -284,7 +282,7 @@ int main() {
                     false, false, false, false, false, true, false, false
                 };
                 
-                // Valores dos atributos para cada carta
+                
                 float valores1[] = {
                     0, (float)carta1.populacao, carta1.area, carta1.pib, 
                     (float)carta1.pontos, carta1.densidade, 
@@ -297,20 +295,20 @@ int main() {
                     carta2.pib_per_capita, carta2.super_poder
                 };
                 
-                // Comparar atributos
+                
                 int res_attr1 = comparar_atributos(
                     valores1[atributo1], valores2[atributo1], menor_vence[atributo1]);
                 
                 int res_attr2 = comparar_atributos(
                     valores1[atributo2], valores2[atributo2], menor_vence[atributo2]);
                 
-                // Soma dos atributos
+                
                 float soma1 = valores1[atributo1] + valores1[atributo2];
                 float soma2 = valores2[atributo1] + valores2[atributo2];
                 
                 printf("\n=== RESULTADO (Nível Mestre) ===\n");
                 
-                // Resultado do primeiro atributo
+                
                 printf("\nAtributo 1: %s (%s)\n", 
                     nomes_atributos[atributo1], 
                     menor_vence[atributo1] ? "menor vence" : "maior vence");
@@ -320,7 +318,7 @@ int main() {
                     res_attr1 == 1 ? carta1.cidade : 
                     res_attr1 == 2 ? carta2.cidade : "Empate");
                 
-                // Resultado do segundo atributo
+                
                 printf("\nAtributo 2: %s (%s)\n", 
                     nomes_atributos[atributo2], 
                     menor_vence[atributo2] ? "menor vence" : "maior vence");
@@ -330,7 +328,7 @@ int main() {
                     res_attr2 == 1 ? carta1.cidade : 
                     res_attr2 == 2 ? carta2.cidade : "Empate");
                 
-                // Resultado final
+                
                 printf("\nSoma dos atributos:\n");
                 printf("%s: %.2f\n", carta1.cidade, soma1);
                 printf("%s: %.2f\n", carta2.cidade, soma2);
