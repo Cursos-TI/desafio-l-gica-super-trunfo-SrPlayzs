@@ -344,7 +344,7 @@ int main() {
             }
                 
             case 5:
-                printf("Saindo do jogo...\n");
+                printf("Saindo do jogo....\n");
                 break;
         }
     } while (opcao != 5);
